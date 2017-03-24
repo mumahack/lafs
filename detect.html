@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Emotion Intelligence using MS Cognitive Service</title>
+<script src="https://code.jquery.com/jquery-3.2.0.js"></script>
+<script language="JavaScript">
+function take_snapshot() {
+
+    Webcam.snap(function(data_uri) {
+        document.getElementById("loading").innerHTML="Analyzing, please wait...";
+        var file = data_uri.substring(23).replace(' ', '+');
+    	var img = Base64Binary.decodeArrayBuffer(file);
+        var ajax = new XMLHttpRequest();
+        ajax.addEventListener("load", function(event) {
+            var data = JSON.parse(event.target.response);
+
+            var happiness = 0;
+
+            if(data.length > 0) {
+                // we got a face
+                happiness = data[0].scores.happiness;
+            }
+
+            var resEl = document.getElementById('results');
+            resEl.innerHTML = '<div><p>' + happiness + '</p><img src="'+ data_uri +'"/></div>' + resEl.innerHTML;
+        }, false);
+        ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize","image/jpg");
+    	ajax.setRequestHeader("Content-Type","application/octet-stream");
+    	ajax.setRequestHeader("Accept","application/json,text/html,application/xhtml+xml,application/xml");
+    	ajax.setRequestHeader("Ocp-Apim-Subscription-Key","fa5211a24a3448eebf0fae55eb9d0b5f");
+
+    	ajax.send(img);
+    });
+}
+$(function() {
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 100
+    });
+    Webcam.attach('#my_camera');
+});
+</script>
+</head>
+<body>
+<div><b>Webcam Preview...</b>
+    <div id="my_camera"></div>
+    <button onClick="take_snapshot()">Mach et!</button>
+</div>
+<p id="loading"></p>
+<div>
+    <div><b>Results:</b><div id="results"></div></div>
+</div>
+<div class="container" id="results">
+
+</div>
+
+</body>
+<script type="text/javascript" src="webcam.js"></script>
+<script type="text/javascript" src="base64-binary.js"></script>
+</html>
