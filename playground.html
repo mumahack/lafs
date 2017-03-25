@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>A script on this page starts this clock:</p>
+<img id="demo" src="img/busy.gif" alt="Smiley face" height="400" >
+
+<script>
+var myVar = setInterval(function(){ myTimer() }, 5000);
+var imageIndex = 0;
+var maxIndex = 9;
+
+function myTimer() {
+    if(imageIndex<maxIndex){
+      imageIndex++;
+    }else{
+      imageIndex = 1;
+    }
+    document.getElementById("demo").src = "img/profile/" + imageIndex + ".jpg";
+}
+</script>
+
+</body>
+</html>

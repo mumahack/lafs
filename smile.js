@@ -1,9 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Emotion Intelligence using MS Cognitive Service</title>
 <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
+<script type="text/javascript" src="webcam.js"></script>
+<script type="text/javascript" src="base64-binary.js"></script>
 <script language="JavaScript">
 var stopIntervalIsTrue = true;
 
@@ -61,20 +58,3 @@ $(function() {
     stopIntervalIsTrue = false;
 });
 </script>
-</head>
-<body>
-<div><b>Webcam Preview...</b>
-    <div id="my_camera"></div>
-    <img id="busyimg" src="img\busy.gif" height="50px" width="50px"/>
-    <button onClick="stop_take_snapshot">Stop It</button>
-</div>
-<div>
-    <div><b>Results:</b><div id="results"></div></div>
-</div>
-<p id="debugtext"/>
-<div class="container" id="results" />
-
-</body>
-<script type="text/javascript" src="webcam.js"></script>
-<script type="text/javascript" src="base64-binary.js"></script>
-</html>
