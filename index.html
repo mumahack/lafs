@@ -92,9 +92,14 @@
                     <div id="my_camera"></div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="col-people pull-left">
+            <div class="col-sm-6" id="personCol">
+                <div class="colPeople pull-left">
                     <img id="personPic">
+                </div>
+                <div class="colSetup pull-left">
+                    <h1>Smile and set your starter pic!</h1>
+                    <p id="webcamNotice">Please allow us to access your webcam!</p>
+                    <button class="btn btn-success" disabled="disabled" id="startButton">Let's go</button>
                 </div>
             </div>
             <div class="col-sm-12">
@@ -182,19 +187,7 @@
             $("#match .matchPic").attr('src', matchPic);
             $("#match .percentage").text(Math.round(happiness * 100) + '%');
             $("#matchContainer").fadeIn(300);
-            /*$('#matches').prepend(
-                '<div class="match">' +
-                '<p><strong>It\'s a match!</strong></p>' +
-                '<img class="myPic" src="' + myPic + '"/>' +
-                '<img class="matchPic" src="' + matchPic + '"/>' +
-                '</div>'
-            );*/
         }
-
-        $('#matchContinue').click(function() {
-            $("#matchContainer").fadeOut(200);
-            setTimeout(newPerson, 200);
-        });
 
 
         function detectMatch(imageIndex) {
@@ -240,7 +233,23 @@
                 jpeg_quality: 70
             });
             Webcam.attach('#my_camera');
-            Webcam.on("live", newPerson);
+            Webcam.on("live", function() {
+                $('#webcamNotice').remove();
+                $("#startButton").removeAttr('disabled');
+            });
+
+
+            $('#matchContinue').click(function() {
+                $("#matchContainer").fadeOut(200);
+                setTimeout(newPerson, 200);
+            });
+
+            $('#startButton').click(function() {
+                $('.colSetup').fadeOut(400).promise().then(function() {
+                    $('.colPeople').fadeIn(100);
+                    newPerson();
+                });
+            });
         });
 
     </script>
@@ -295,6 +304,10 @@
             font-size: 48px;
             color: red;
             text-align: center;
+        }
+        
+        .colPeople {
+            display: none;
         }
 
     </style>
