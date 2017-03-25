@@ -69,11 +69,12 @@
             <div class="col-sm-6">
                 <div class="col-camera pull-right">
                     <div id="my_camera"></div>
+                    <img id="busyimg" src="img/busy.gif" width="100">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="col-people pull-left">
-                    <img id="demo" src="img/busy.gif" width="300">
+                    <img id="demo" width="300">
                 </div>
             </div>
             <div class="col-sm-12">
@@ -132,9 +133,12 @@
     <script type="text/javascript" src="webcam.js"></script>
     <script type="text/javascript" src="base64-binary.js"></script>
     <script>
-        var interval = setInterval(newPerson, 5000);
+        //var interval = setInterval(newPerson, 3000);
+        var stopClicked = false;
         var imageIndex = 0;
         var maxIndex = 9;
+        $( window ).on( "load", newPerson );
+        //$(document).ready(newPerson);
 
         function newPerson() {
             if (imageIndex < maxIndex) {
@@ -146,7 +150,7 @@
 
             setTimeout(function() {
                 detectMatch(imageIndex);
-            }, 1000);
+            }, 1500);
         }
         
         function matchFound(myPic, matchPic) {
@@ -162,6 +166,7 @@
 
         function detectMatch(imageIndex) {
             Webcam.snap(function(data_uri) {
+                document.getElementById('busyimg').style.visibility = 'visible';
 
                 var file = data_uri.substring(23).replace(' ', '+');
                 var img = Base64Binary.decodeArrayBuffer(file);
@@ -169,6 +174,7 @@
                 ajax.addEventListener("load", function(event) {
                     var data = JSON.parse(event.target.response);
 
+                    document.getElementById('busyimg').style.visibility = 'hidden';
                     if (data.length > 0) {
                         // we got a face
                         var happiness = data[0].scores.happiness;
@@ -176,7 +182,10 @@
                             matchFound(data_uri, "img/profile/" + imageIndex + ".jpg");
                         }
                     }
-
+                    
+                    if(!stopClicked) {
+                        setTimeout(newPerson, 2000);
+                    }
                 }, false);
                 ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize", "image/jpg");
                 ajax.setRequestHeader("Content-Type", "application/octet-stream");
@@ -190,7 +199,8 @@
         $(function() {
             
             $('#stopButton').click(function() {
-                clearInterval(interval);
+                // clearInterval(interval);
+                stopClicked = true;
                 Webcam.reset();
             });
             
@@ -198,7 +208,7 @@
                 width: 320,
                 height: 240,
                 image_format: 'jpeg',
-                jpeg_quality: 100
+                jpeg_quality: 70
             });
             Webcam.attach('#my_camera');
         });
