@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>LAFS</title>
 
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet">
     <script src="jquery.js"></script>
-    <script src="smile.js"></script>
-    <script src="imageChanger.js"></script>
     <script type="text/javascript" src="webcam.js"></script>
     <script type="text/javascript" src="base64-binary.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -22,153 +21,242 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-  </head>
-  <body>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">
-          <img src="img/logo.png"/>
-        </a>
-        <a class="navbar-brand" href="#">LAFS</a>
-      </div>
+</head>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-             <img src="img/profile.png"/>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Logout</a></li>
-              <li><a href="#">Edit Profile</a></li>
-              <li><a href="#">Settings</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-  <div class="container-fluid">
-    <div class="col-md-4 hero-unit col-md-offset-2">
-      <h2>Browse Your Love:</h2>
-
-        <img id="demo" src="img/busy.gif" alt="Smiley face" width="300" >
-
+<body>
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
-          <div class="col-md-6 hero-unit col-md-offset-2">
-            <button type="button" class="btn btn-danger">Stop</button>
-          </div>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="img/logo.png" />
+                </a>
+                <a class="navbar-brand" href="#">LAFS</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Logout</a>
+                            </li>
+                            <li>
+                                <a href="#">Edit Profile</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
-
-      <!--
-      <div><b>Webcam Preview...</b>
-          <div id="my_camera"></div>
-          <img id="busyimg" src="img\busy.gif" height="50px" width="50px"/>
-          <button onClick="stop_take_snapshot">Stop It</button>
-      </div>
-      <div>
-          <div><b>Results:</b><div id="results"></div></div>
-      </div>
-      <p id="debugtext"/>
-      <div class="container" id="results" />
-    -->
-
-
-
-    </div><!-- /.col-md-8 -->
-    <div class="col-md-3">
-      <h2>Matches</h2>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="newMatch"> Ivan </div>
-        </li>
-        <li class="list-group-item">Rene</li>
-        <li class="list-group-item">Raquel</li>
-      </ul>
-      <h2>Chat with Ivan</h2>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="container-fluid">
-            <div class="col-md-3">
-              Ivan:
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-camera pull-right">
+                    <div id="my_camera"></div>
+                </div>
             </div>
-            <div class="col-md-9">
-              How Are you?
+            <div class="col-sm-6">
+                <div class="col-people pull-left">
+                    <img id="demo" src="img/busy.gif" width="300">
+                </div>
             </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="container-fluid">
-            <div class="col-md-3">
-              Me:
+            <div class="col-sm-12">
+                <div class="text-center pt-20">
+                    <button class="btn btn-default" id="stopButton">Stop</button>
+                </div>
             </div>
-            <div class="col-md-9">
-              Awesome!
+            <!-- <div class="col-md-3">
+                <h2>Matches</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="newMatch"> Ivan </div>
+                    </li>
+                    <li class="list-group-item">Rene</li>
+                    <li class="list-group-item">Raquel</li>
+                </ul>
+                <h2>Chat with Ivan</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="container-fluid">
+                            <div class="col-md-3"> Ivan: </div>
+                            <div class="col-md-9"> How Are you? </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="container-fluid">
+                            <div class="col-md-3"> Me: </div>
+                            <div class="col-md-9"> Awesome! </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-group">
+                            <label for="comment">Comment:</label>
+                            <textarea class="form-control" rows="5" id="comment">
+                            </textarea>
+                        </div>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="form-group">
-           <label for="comment">Comment:</label>
-           <textarea class="form-control" rows="5" id="comment"></textarea>
-          </div>
-        </li>
-      </ul>
-
-    </div><!-- /.col-md-3 -->
-  </div><!-- /.container-fluid -->
+            -->
+            <!-- /.col-md-3 -->
+        </div>
+        <div class="row">
+            <div class="col-6 col-offset-3" id="matches">
+                
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webcam.js"></script>
+    <script type="text/javascript" src="base64-binary.js"></script>
     <script>
-    var myVar = setInterval(function(){ myTimer() }, 5000);
-    var imageIndex = 0;
-    var maxIndex = 9;
+        var interval = setInterval(newPerson, 5000);
+        var imageIndex = 0;
+        var maxIndex = 9;
 
-    function myTimer() {
-        if(imageIndex<maxIndex){
-          imageIndex++;
-        }else{
-          imageIndex = 1;
+        function newPerson() {
+            if (imageIndex < maxIndex) {
+                imageIndex++;
+            } else {
+                imageIndex = 1;
+            }
+            document.getElementById("demo").src = "img/profile/" + imageIndex + ".jpg";
+
+            setTimeout(function() {
+                detectMatch(imageIndex);
+            }, 1000);
         }
-        document.getElementById("demo").src = "img/profile/" + imageIndex + ".jpg";
-    }
+        
+        function matchFound(myPic, matchPic) {
+            $('#matches').prepend(
+                '<div class="match">' +
+                    '<p><strong>It\'s a match!</strong></p>' +
+                    '<img class="myPic" src="' + myPic + '"/>' +
+                    '<img class="matchPic" src="' + matchPic + '"/>' +
+                '</div>'
+            );
+        }
+
+
+        function detectMatch(imageIndex) {
+            Webcam.snap(function(data_uri) {
+
+                var file = data_uri.substring(23).replace(' ', '+');
+                var img = Base64Binary.decodeArrayBuffer(file);
+                var ajax = new XMLHttpRequest();
+                ajax.addEventListener("load", function(event) {
+                    var data = JSON.parse(event.target.response);
+
+                    if (data.length > 0) {
+                        // we got a face
+                        var happiness = data[0].scores.happiness;
+                        if (happiness > 0.66) {
+                            matchFound(data_uri, "img/profile/" + imageIndex + ".jpg");
+                        }
+                    }
+
+                }, false);
+                ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize", "image/jpg");
+                ajax.setRequestHeader("Content-Type", "application/octet-stream");
+                ajax.setRequestHeader("Accept", "application/json,text/html,application/xhtml+xml,application/xml");
+                ajax.setRequestHeader("Ocp-Apim-Subscription-Key", "fa5211a24a3448eebf0fae55eb9d0b5f");
+
+                ajax.send(img);
+            });
+        }
+
+        $(function() {
+            
+            $('#stopButton').click(function() {
+                clearInterval(interval);
+                Webcam.reset();
+            });
+            
+            Webcam.set({
+                width: 320,
+                height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 100
+            });
+            Webcam.attach('#my_camera');
+        });
+
     </script>
 
+
     <style>
-    .newMatch {
-        color: green;
-        -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-        -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
-        animation-name: example;
-        animation-duration: 1s;
-    }
+        .newMatch {
+            color: green;
+            -webkit-animation-name: example;
+            /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 1s;
+            /* Safari 4.0 - 8.0 */
+            animation-name: example;
+            animation-duration: 1s;
+        }
+        /* Safari 4.0 - 8.0 */
+        
+        @-webkit-keyframes example {
+            from {
+                color: green;
+            }
+            to {
+                color: yellow;
+            }
+        }
+        /* Standard syntax */
+        
+        @keyframes example {
+            from {
+                color: green;
+            }
+            to {
+                color: yellow;
+            }
+        }
+        .match {
+            padding: 10px;
+            border: solid green;
+            border-radius: 7px;
+            margin: 20px;
+        }
+        
+        #my_camera {
+            background-color: grey;
+        }
 
-    /* Safari 4.0 - 8.0 */
-    @-webkit-keyframes example {
-        from {color: green;}
-        to {color: yellow;}
-    }
-
-    /* Standard syntax */
-    @keyframes example {
-        from {color: green;}
-        to {color: yellow;}
-    }
+        .match img {
+            max-width: 400px;
+            max-height: 400px;
+        }
+        
+        .pt-20 {
+            padding-top: 20px;
+        }
+        
     </style>
-  </body>
+</body>
+
 </html>
