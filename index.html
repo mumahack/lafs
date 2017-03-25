@@ -69,12 +69,11 @@
             <div class="col-sm-6">
                 <div class="col-camera pull-right">
                     <div id="my_camera"></div>
-                    <img id="busyimg" src="img/busy.gif" width="100">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="col-people pull-left">
-                    <img id="demo" width="300">
+                    <img id="demo">
                 </div>
             </div>
             <div class="col-sm-12">
@@ -166,7 +165,6 @@
 
         function detectMatch(imageIndex) {
             Webcam.snap(function(data_uri) {
-                document.getElementById('busyimg').style.visibility = 'visible';
 
                 var file = data_uri.substring(23).replace(' ', '+');
                 var img = Base64Binary.decodeArrayBuffer(file);
@@ -174,7 +172,6 @@
                 ajax.addEventListener("load", function(event) {
                     var data = JSON.parse(event.target.response);
 
-                    document.getElementById('busyimg').style.visibility = 'hidden';
                     if (data.length > 0) {
                         // we got a face
                         var happiness = data[0].scores.happiness;
@@ -183,9 +180,7 @@
                         }
                     }
                     
-                    if(!stopClicked) {
-                        setTimeout(newPerson, 2000);
-                    }
+                    setTimeout(newPerson, 1500);
                 }, false);
                 ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize", "image/jpg");
                 ajax.setRequestHeader("Content-Type", "application/octet-stream");
@@ -211,41 +206,13 @@
                 jpeg_quality: 70
             });
             Webcam.attach('#my_camera');
+            Webcam.on("live", newPerson );
         });
 
     </script>
 
 
     <style>
-        .newMatch {
-            color: green;
-            -webkit-animation-name: example;
-            /* Safari 4.0 - 8.0 */
-            -webkit-animation-duration: 1s;
-            /* Safari 4.0 - 8.0 */
-            animation-name: example;
-            animation-duration: 1s;
-        }
-        /* Safari 4.0 - 8.0 */
-        
-        @-webkit-keyframes example {
-            from {
-                color: green;
-            }
-            to {
-                color: yellow;
-            }
-        }
-        /* Standard syntax */
-        
-        @keyframes example {
-            from {
-                color: green;
-            }
-            to {
-                color: yellow;
-            }
-        }
         .match {
             padding: 10px;
             border: solid green;
