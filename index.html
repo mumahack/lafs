@@ -135,21 +135,23 @@
         //var interval = setInterval(newPerson, 3000);
         var stopClicked = false;
         var imageIndex = 0;
-        var maxIndex = 9;
-        $( window ).on( "load", newPerson );
-        //$(document).ready(newPerson);
-
+        var maxIndex = 6;
+        
+        function personImageUrl(imageIndex) {
+            return "img/smile_new/" + imageIndex + ".jpg";
+        }
+        
         function newPerson() {
             if (imageIndex < maxIndex) {
                 imageIndex++;
             } else {
                 imageIndex = 1;
             }
-            document.getElementById("demo").src = "img/profile/" + imageIndex + ".jpg";
+            document.getElementById("demo").src = personImageUrl(imageIndex);
 
             setTimeout(function() {
                 detectMatch(imageIndex);
-            }, 1500);
+            }, 1200);
         }
         
         function matchFound(myPic, matchPic) {
@@ -175,8 +177,8 @@
                     if (data.length > 0) {
                         // we got a face
                         var happiness = data[0].scores.happiness;
-                        if (happiness > 0.66) {
-                            matchFound(data_uri, "img/profile/" + imageIndex + ".jpg");
+                        if (happiness > 0.8) {
+                            matchFound(data_uri, personImageUrl(imageIndex));
                         }
                     }
                     
