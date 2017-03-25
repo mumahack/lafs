@@ -64,6 +64,27 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+
+    <div id="matchContainer">
+        <div class="matchBox" id="match">
+            <h1>
+                <span class="icon">&#9829&#9829&#9829</span>
+                <span class="headline">It's a <span class="percentage"></span> match!</span>
+                <span class="icon">&#9829&#9829&#9829</span>
+            </h1>
+            <div class="pics">
+                <img class="myPic" />
+                <img class="matchPic" />
+            </div>
+            <div class="text-center pt-20">
+                <button class="btn btn-primary">Start Chat</button>
+                <button id="matchContinue" class="btn btn-default">Continue</button>
+            </div>
+
+        </div>
+    </div>
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
@@ -73,12 +94,12 @@
             </div>
             <div class="col-sm-6">
                 <div class="col-people pull-left">
-                    <img id="demo">
+                    <img id="personPic">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="text-center pt-20">
-                    <button class="btn btn-default" id="stopButton">Stop</button>
+                    <button class="btn btn-default pull-right" id="stopButton">Stop</button>
                 </div>
             </div>
             <!-- <div class="col-md-3">
@@ -116,9 +137,11 @@
             -->
             <!-- /.col-md-3 -->
         </div>
+
+
         <div class="row">
             <div class="col-6 col-offset-3" id="matches">
-                
+
             </div>
         </div>
     </div>
@@ -136,33 +159,42 @@
         var stopClicked = false;
         var imageIndex = 0;
         var maxIndex = 6;
-        
+
         function personImageUrl(imageIndex) {
             return "img/smile_new/" + imageIndex + ".jpg";
         }
-        
+
         function newPerson() {
             if (imageIndex < maxIndex) {
                 imageIndex++;
             } else {
                 imageIndex = 1;
             }
-            document.getElementById("demo").src = personImageUrl(imageIndex);
+            $("#personPic").attr('src', personImageUrl(imageIndex));
 
             setTimeout(function() {
                 detectMatch(imageIndex);
             }, 1200);
         }
-        
-        function matchFound(myPic, matchPic) {
-            $('#matches').prepend(
+
+        function matchFound(myPic, matchPic, happiness) {
+            $("#match .myPic").attr('src', myPic);
+            $("#match .matchPic").attr('src', matchPic);
+            $("#match .percentage").text(Math.round(happiness * 100) + '%');
+            $("#matchContainer").fadeIn(300);
+            /*$('#matches').prepend(
                 '<div class="match">' +
-                    '<p><strong>It\'s a match!</strong></p>' +
-                    '<img class="myPic" src="' + myPic + '"/>' +
-                    '<img class="matchPic" src="' + matchPic + '"/>' +
+                '<p><strong>It\'s a match!</strong></p>' +
+                '<img class="myPic" src="' + myPic + '"/>' +
+                '<img class="matchPic" src="' + matchPic + '"/>' +
                 '</div>'
-            );
+            );*/
         }
+
+        $('#matchContinue').click(function() {
+            $("#matchContainer").fadeOut(200);
+            setTimeout(newPerson, 200);
+        });
 
 
         function detectMatch(imageIndex) {
@@ -174,15 +206,15 @@
                 ajax.addEventListener("load", function(event) {
                     var data = JSON.parse(event.target.response);
 
-                    if (data.length > 0) {
-                        // we got a face
-                        var happiness = data[0].scores.happiness;
-                        if (happiness > 0.8) {
-                            matchFound(data_uri, personImageUrl(imageIndex));
-                        }
+                    var happiness = data.length > 0 ? data[0].scores.happiness : 0;
+
+                    if (happiness > 0.8) {
+                        matchFound(data_uri, personImageUrl(imageIndex), happiness);
+                    } else {
+                        //$('#personPic').fadeOut(300).delay(200).show();
+                        setTimeout(newPerson, 500);
                     }
-                    
-                    setTimeout(newPerson, 1500);
+
                 }, false);
                 ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize", "image/jpg");
                 ajax.setRequestHeader("Content-Type", "application/octet-stream");
@@ -194,13 +226,13 @@
         }
 
         $(function() {
-            
+
             $('#stopButton').click(function() {
                 // clearInterval(interval);
                 stopClicked = true;
                 Webcam.reset();
             });
-            
+
             Webcam.set({
                 width: 480,
                 height: 360,
@@ -208,7 +240,7 @@
                 jpeg_quality: 70
             });
             Webcam.attach('#my_camera');
-            Webcam.on("live", newPerson );
+            Webcam.on("live", newPerson);
         });
 
     </script>
@@ -225,7 +257,7 @@
         #my_camera {
             background-color: grey;
         }
-
+        
         .match img {
             max-width: 480px;
             max-height: 360px;
@@ -235,6 +267,36 @@
             padding-top: 20px;
         }
         
+        #matchContainer {
+            display: none;
+            z-index: 9999;
+            position: absolute;
+            width: 100%;
+        }
+        
+        .matchBox * {
+            text-align: center;
+        }
+        
+        .matchBox {
+            margin: 20px auto;
+            width: 750px;
+            background-color: white;
+            border: 5px solid red;
+            border-radius: 5px;
+            padding-bottom: 20px;
+        }
+        
+        .matchBox .pics img {
+            width: 300px;
+        }
+        
+        .matchBox .icon {
+            font-size: 48px;
+            color: red;
+            text-align: center;
+        }
+
     </style>
 </body>
 
