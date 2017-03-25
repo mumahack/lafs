@@ -5,10 +5,12 @@
 <title>Emotion Intelligence using MS Cognitive Service</title>
 <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
 <script language="JavaScript">
-function take_snapshot() {
 
+function take_snapshot() {
+    //document.getElementById("takeSnapshotButton").setAttribute("disabled","disabled");
     Webcam.snap(function(data_uri) {
-        document.getElementById("loading").innerHTML="Analyzing, please wait...";
+        document.getElementById('busyimg').style.visibility = 'visible';
+        
         var file = data_uri.substring(23).replace(' ', '+');
     	var img = Base64Binary.decodeArrayBuffer(file);
         var ajax = new XMLHttpRequest();
@@ -24,6 +26,14 @@ function take_snapshot() {
 
             var resEl = document.getElementById('results');
             resEl.innerHTML = '<div><p>' + happiness + '</p><img src="'+ data_uri +'"/></div>' + resEl.innerHTML;
+
+            document.getElementById('busyimg').style.visibility = 'hidden';
+            
+            document.getElementById('debugtext').innerHTML = '<div><p>' +intervalID + '   ' + stopIntervalIsTrue + '</p></div>'
+            if (stopIntervalIsTrue) {
+                clearInterval(intervalID);
+            }
+            // document.getElementById("takeSnapshotButton").removeAttribute("disabled");
         }, false);
         ajax.open("POST", "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize","image/jpg");
     	ajax.setRequestHeader("Content-Type","application/octet-stream");
@@ -33,6 +43,10 @@ function take_snapshot() {
     	ajax.send(img);
     });
 }
+function stop_take_snapshot() {
+    var stopIntervalIsTrue = true; 
+}
+
 $(function() {
     Webcam.set({
         width: 320,
@@ -41,21 +55,23 @@ $(function() {
         jpeg_quality: 100
     });
     Webcam.attach('#my_camera');
+
+    var intervalID = setInterval(take_snapshot, 5000);
+    var stopIntervalIsTrue = false;
 });
 </script>
 </head>
 <body>
 <div><b>Webcam Preview...</b>
     <div id="my_camera"></div>
-    <button onClick="take_snapshot()">Mach et!</button>
+    <img id="busyimg" src="img\busy.gif" height="50px" width="50px"/>
+    <button onClick="stop_take_snapshot">Stop It</button>
 </div>
-<p id="loading"></p>
 <div>
     <div><b>Results:</b><div id="results"></div></div>
 </div>
-<div class="container" id="results">
-
-</div>
+<p id="debugtext"/>
+<div class="container" id="results" />
 
 </body>
 <script type="text/javascript" src="webcam.js"></script>
