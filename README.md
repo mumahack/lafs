@@ -24,3 +24,6 @@ Kenny plan:
 10:00 chat view
 12:00 js effekte
 14:00 Buffer
+
+
+2nd place on Love Hackathon #2 (2017)
